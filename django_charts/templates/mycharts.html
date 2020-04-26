@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+<script>
+{% block jquery %}
+var json_data = '/api/chart/data/'
+var xlabels = []
+var ylabels = []
+
+$.ajax({
+  method:'GET',
+  url: json_data,
+  success: function(data){
+    ylabels = data.labels
+    xlabels = data.default
+    setMychart()
+  },
+  error: function(error_data){
+    console.log('error')
+    console.log(error_data)
+  }
+})
+
+function setMychart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx2 = document.getElementById('myChart2').getContext('2d');
+  var ctx3 = document.getElementById('myChart3').getContext('2d');
+  var myChart = new Chart(ctx3, {
+      type: 'bar',
+      data: {
+          labels: ylabels,
+          datasets: [{
+              label: '# of Frequency',
+              data: xlabels,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+  var myChart = new Chart(ctx2, {
+      type: 'line',
+      data: {
+          labels: ylabels,
+          datasets: [{
+              label: '# of Frequency',
+              data: xlabels,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+  var myChart = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+          labels: ylabels,
+          datasets: [{
+              label: '# of Frequency',
+              data: xlabels,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+
+}
+
+{% endblock %}
+</script>
+{% block content %}
+
+<div class="row">
+
+  <div class="col-sm-12" url-json_data='{% url 'api-data' %}'>
+    <div class='col-sm-6'>
+      <p>#Types of Charts</p>
+
+      <canvas id="myChart3" width="200" height="200"></canvas>
+      <p align='center'># Bar Chart</p>
+
+    </div>
+    <div class='col-sm-6'>
+      <canvas id="myChart" width="300" height="300"></canvas>
+      <p align='center'># Polar Area Chart</p>
+
+    </div>
+    <div class='col-sm-6'>
+      <canvas id="myChart2" width="200" height="200"></canvas>
+      <p align='center'># Line Chart</p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
